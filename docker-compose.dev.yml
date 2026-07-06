@@ -1,0 +1,60 @@
+services:
+  # ─── MongoDB ────────────────────────────────────────────────────────
+  mongo:
+    image: mongo:7.0
+    container_name: smg_mongo_dev
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: smg_ecommerce
+    volumes:
+      - mongo_data_dev:/data/db
+    networks:
+      - smg_network
+    ports:
+      - "27017:27017"  # Expose for local MongoDB tools (Compass etc.)
+
+  # ─── Backend ────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: smg_backend_dev
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend/src:/app/src       # Hot reload via nodemon
+      - uploads_data_dev:/app/uploads
+    depends_on:
+      - mongo
+    networks:
+      - smg_network
+    ports:
+      - "5000:5000"
+    command: ["npm", "run", "dev"]  # Use nodemon
+
+  # ─── Frontend ───────────────────────────────────────────────────────
+  frontend:
+    image: node:20-alpine
+    container_name: smg_frontend_dev
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: ["npm", "run", "dev", "--", "--host"]
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:5000/api/v1
+    networks:
+      - smg_network
+
+volumes:
+  mongo_data_dev:
+    driver: local
+  uploads_data_dev:
+    driver: local
+
+networks:
+  smg_network:
+    driver: bridge

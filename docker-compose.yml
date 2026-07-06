@@ -1,0 +1,56 @@
+services:
+  # ─── MongoDB ────────────────────────────────────────────────────────
+  mongo:
+    image: mongo:7.0
+    container_name: smg_mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: smg_ecommerce
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - smg_network
+    # Not exposed publicly — only reachable inside the Docker network
+
+  # ─── Backend (Node/Express) ─────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: smg_backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env.production
+    volumes:
+      - uploads_data:/app/uploads
+    depends_on:
+      - mongo
+    networks:
+      - smg_network
+    # Not exposed to host — frontend container proxies to it
+
+  # ─── Frontend (React → Nginx) ───────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=/api/v1
+    container_name: smg_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    networks:
+      - smg_network
+    ports:
+      - "3000:80"   # Exposed to host; Nginx reverse-proxy on VPS maps port 80/443 → 3000
+
+volumes:
+  mongo_data:
+    driver: local
+  uploads_data:
+    driver: local
+
+networks:
+  smg_network:
+    driver: bridge

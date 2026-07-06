@@ -1,0 +1,40 @@
+# ──────────────────────────────────────────────────────────────────────
+# Root .gitignore — covers both backend and frontend
+# ──────────────────────────────────────────────────────────────────────
+
+# ── Node ──────────────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── Environment files (NEVER commit real secrets) ─────────────────────
+.env
+.env.local
+.env.development
+.env.production
+!.env.production.example   # keep the example template
+
+# ── Build output ──────────────────────────────────────────────────────
+frontend/dist/
+frontend/dist-ssr/
+
+# ── Uploads (user-generated files — persisted via Docker volume) ───────
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# ── OS & editor ───────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# ── Logs ──────────────────────────────────────────────────────────────
+logs/
+*.log
