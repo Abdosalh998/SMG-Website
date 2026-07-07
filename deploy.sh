@@ -10,8 +10,8 @@
 set -euo pipefail
 
 APP_DIR="/opt/smg"
-REPO_URL="https://github.com/YOUR_USERNAME/YOUR_REPO.git"   # ← CHANGE THIS
-DOMAIN="yourdomain.com"                                       # ← CHANGE THIS
+REPO_URL="https://github.com/Abdosalh998/SMG-Website.git"   # ← CHANGE THIS
+DOMAIN="smgturbofan.com"                                       # ← CHANGE THIS
 APP_PORT="3000"
 
 GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
