@@ -13,7 +13,7 @@ const HomePage = () => {
 
   const getImageUrl = (path) => {
     if (!path || path === 'no-photo.jpg') return null;
-    return `http://localhost:5000${path.startsWith('/') ? '' : '/'}${path}`;
+    return `${path.startsWith('/') ? '' : '/'}${path}`;
   };
 
   const featuredProducts = productsData?.data?.slice(0, 8) || [];

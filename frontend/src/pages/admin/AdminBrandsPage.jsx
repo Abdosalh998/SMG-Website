@@ -137,7 +137,7 @@ const AdminBrandsPage = () => {
                   <tr key={brand._id} className="hover:bg-gray-50 transition">
                     <td className="px-6 py-4">
                       {brand.image && brand.image !== 'no-photo.jpg' ? (
-                        <img src={`http://localhost:5000${brand.image.startsWith('/') ? '' : '/'}${brand.image}`} alt={brand.name.en} className="w-12 h-12 rounded-lg object-cover border border-gray-200" />
+                        <img src={`${brand.image.startsWith('/') ? '' : '/'}${brand.image}`} alt={brand.name.en} className="w-12 h-12 rounded-lg object-cover border border-gray-200" />
                       ) : (
                         <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
                           <ImageIcon className="w-6 h-6" />
@@ -224,7 +224,7 @@ const AdminBrandsPage = () => {
                 <div className="flex items-center gap-4">
                   {imagePreview && imagePreview !== 'no-photo.jpg' ? (
                     <img 
-                      src={imagePreview.startsWith('blob:') ? imagePreview : `http://localhost:5000${imagePreview.startsWith('/') ? '' : '/'}${imagePreview}`} 
+                      src={imagePreview.startsWith('blob:') ? imagePreview : `${imagePreview.startsWith('/') ? '' : '/'}${imagePreview}`} 
                       alt="Preview" 
                       className="w-16 h-16 rounded-lg object-cover border border-gray-200" 
                     />

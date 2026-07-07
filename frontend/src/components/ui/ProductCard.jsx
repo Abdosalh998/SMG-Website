@@ -7,7 +7,7 @@ import { toggleWishlist } from '../../store/wishlistSlice';
 
 const getImageUrl = (path) => {
   if (!path || path === 'no-photo.jpg') return null;
-  return `http://localhost:5000${path.startsWith('/') ? '' : '/'}${path}`;
+  return `${path.startsWith('/') ? '' : '/'}${path}`;
 };
 
 const ProductCard = ({ product }) => {

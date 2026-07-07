@@ -21,7 +21,7 @@ const OrderConfirmationPage = () => {
   const getImageUrl = (img) => {
     if (!img) return 'https://placehold.co/80x80/f8f9fa/e60000?text=SMG';
     if (img.startsWith('http')) return img;
-    return `http://localhost:5000${img.startsWith('/') ? '' : '/'}${img}`;
+    return `${img.startsWith('/') ? '' : '/'}${img}`;
   };
 
   const getItemPrice = (item) => {

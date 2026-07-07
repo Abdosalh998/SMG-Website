@@ -155,7 +155,7 @@ const CartPage = () => {
               <tbody>
                 {cartItems.map(item => {
                   const imgSrc = item.images && item.images[0]
-                    ? `http://localhost:5000${item.images[0].startsWith('/') ? '' : '/'}${item.images[0]}`
+                    ? `${item.images[0].startsWith('/') ? '' : '/'}${item.images[0]}`
                     : 'https://placehold.co/100x100/f8f9fa/e60000?text=SMG';
 
                   return (

@@ -183,7 +183,7 @@ const AdminProductsPage = () => {
 
   const getImageUrl = (imagePath) => {
     if (!imagePath || imagePath === 'no-photo.jpg') return null;
-    return `http://localhost:5000${imagePath.startsWith('/') ? '' : '/'}${imagePath}`;
+    return `${imagePath.startsWith('/') ? '' : '/'}${imagePath}`;
   };
 
   return (

@@ -14,7 +14,7 @@ import {
 const getImageUrl = (img) => {
   if (!img) return null;
   if (img.startsWith('http')) return img;
-  return `http://localhost:5000${img.startsWith('/') ? '' : '/'}${img}`;
+  return `${img.startsWith('/') ? '' : '/'}${img}`;
 };
 
 const AdminOrdersPage = () => {
