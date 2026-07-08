@@ -318,7 +318,7 @@ const AdminProductsPage = () => {
 
             <div className="overflow-y-auto p-6 flex-1">
               <form id="productForm" onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700">{lang === 'ar' ? 'الاسم (إنجليزي)' : 'Name (English)'}</label>
                     <input type="text" required dir="ltr" value={nameEn} onChange={(e) => setNameEn(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary outline-none" />
@@ -329,7 +329,7 @@ const AdminProductsPage = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700">{lang === 'ar' ? 'الوصف (إنجليزي)' : 'Description (English)'}</label>
                     <textarea required dir="ltr" value={descriptionEn} onChange={(e) => setDescriptionEn(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary outline-none h-24" />
@@ -340,7 +340,7 @@ const AdminProductsPage = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700">{lang === 'ar' ? 'التصنيف' : 'Category'}</label>
                     <select required value={category} onChange={(e) => setCategory(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary outline-none bg-white">
@@ -358,13 +358,13 @@ const AdminProductsPage = () => {
                 </div>
 
                 <div className="border-t border-gray-100 pt-6">
-                  <div className="flex items-center gap-2 mb-4">
+                  <div className="flex items-start sm:items-center gap-2 mb-4">
                     <input
                       type="checkbox"
                       id="hasVariants"
                       checked={hasVariants}
                       onChange={(e) => setHasVariants(e.target.checked)}
-                      className="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary"
+                      className="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary mt-1 sm:mt-0 shrink-0"
                     />
                     <label htmlFor="hasVariants" className="text-sm font-medium text-gray-700 cursor-pointer">
                       {lang === 'ar' ? 'هذا المنتج يحتوي على عدة مقاسات (مثل الأحجام، القدرات)' : 'This product has multiple variants (sizes, power, etc.)'}
@@ -372,7 +372,7 @@ const AdminProductsPage = () => {
                   </div>
 
                   {!hasVariants ? (
-                    <div className="grid grid-cols-3 gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
                       <div className="space-y-2">
                         <label className="text-sm font-medium text-gray-700">{lang === 'ar' ? 'السعر (ج.م)' : 'Price (EGP)'}</label>
                         <input type="number" step="0.01" required={!hasVariants} value={price} onChange={(e) => setPrice(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary outline-none bg-white" />
@@ -389,29 +389,29 @@ const AdminProductsPage = () => {
                   ) : (
                     <div className="space-y-4">
                       {variants.map((v, index) => (
-                        <div key={index} className="grid grid-cols-12 gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200 items-end text-start">
-                          <div className="col-span-2 space-y-1">
+                        <div key={index} className="grid grid-cols-2 md:grid-cols-12 gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200 md:items-end text-start relative">
+                          <div className="col-span-1 md:col-span-2 space-y-1">
                             <label className="text-xs font-medium text-gray-500">{lang === 'ar' ? 'المقاس (مثال 305)' : 'Size'}</label>
                             <input type="text" value={v.size} onChange={(e) => updateVariant(index, 'size', e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-primary outline-none" />
                           </div>
-                          <div className="col-span-3 space-y-1">
+                          <div className="col-span-1 md:col-span-3 space-y-1">
                             <label className="text-xs font-medium text-gray-500">{lang === 'ar' ? 'القوة (مثال 5 بوصة)' : 'Power'}</label>
                             <input type="text" value={v.power} onChange={(e) => updateVariant(index, 'power', e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-primary outline-none" />
                           </div>
-                          <div className="col-span-2 space-y-1">
+                          <div className="col-span-1 md:col-span-2 space-y-1">
                             <label className="text-xs font-medium text-gray-500">{lang === 'ar' ? 'السعر *' : 'Price *'}</label>
                             <input type="number" step="0.01" required value={v.price} onChange={(e) => updateVariant(index, 'price', e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-primary outline-none" />
                           </div>
-                          <div className="col-span-2 space-y-1">
+                          <div className="col-span-1 md:col-span-2 space-y-1">
                             <label className="text-xs font-medium text-gray-500">{lang === 'ar' ? 'الخصم' : 'Discount'}</label>
                             <input type="number" step="0.01" value={v.discountPrice} onChange={(e) => updateVariant(index, 'discountPrice', e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-primary outline-none" />
                           </div>
-                          <div className="col-span-2 space-y-1">
+                          <div className="col-span-1 md:col-span-2 space-y-1">
                             <label className="text-xs font-medium text-gray-500">{lang === 'ar' ? 'المخزون *' : 'Stock *'}</label>
                             <input type="number" required value={v.quantity} onChange={(e) => updateVariant(index, 'quantity', e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-primary outline-none" />
                           </div>
-                          <div className="col-span-1 flex justify-center pb-1">
-                            <button type="button" onClick={() => removeVariant(index)} className="text-gray-400 hover:text-red-500 transition">
+                          <div className="col-span-1 md:col-span-1 flex justify-center items-end md:pb-1 pb-2">
+                            <button type="button" onClick={() => removeVariant(index)} className="text-gray-400 hover:text-red-500 transition mt-6 md:mt-0 p-2 md:p-0">
                               <MinusCircle className="w-6 h-6" />
                             </button>
                           </div>
