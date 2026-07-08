@@ -61,7 +61,7 @@ const AdminSettingsPage = () => {
             <h3 className="text-lg font-semibold text-dark border-b border-gray-100 pb-2 mb-4">
               {lang === 'ar' ? 'معلومات الموقع' : 'General Information'}
             </h3>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">{lang === 'ar' ? 'اسم الموقع (إنجليزي)' : 'Site Name (EN)'}</label>
                 <input type="text" name="siteNameEn" dir="ltr" value={settings.siteNameEn || ''} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-primary focus:outline-none text-start" />
@@ -78,7 +78,7 @@ const AdminSettingsPage = () => {
             <h3 className="text-lg font-semibold text-dark border-b border-gray-100 pb-2 mb-4">
               {lang === 'ar' ? 'التواصل والدفع' : 'Contact & Checkout'}
             </h3>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">
                   {lang === 'ar' ? 'رقم واتساب (للطلبات)' : 'WhatsApp Number (For Checkout)'}
@@ -111,7 +111,7 @@ const AdminSettingsPage = () => {
             <h3 className="text-lg font-semibold text-dark border-b border-gray-100 pb-2 mb-4">
               {lang === 'ar' ? 'إعدادات SEO' : 'SEO Configuration'}
             </h3>
-            <div className="grid grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">{lang === 'ar' ? 'عنوان SEO (إنجليزي)' : 'SEO Title (EN)'}</label>
                 <input type="text" name="seoTitleEn" dir="ltr" value={settings.seoTitleEn || ''} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-primary focus:outline-none text-start" />
@@ -121,7 +121,7 @@ const AdminSettingsPage = () => {
                 <input type="text" name="seoTitleAr" dir="rtl" value={settings.seoTitleAr || ''} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2 font-arabic focus:ring-primary focus:outline-none" />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">{lang === 'ar' ? 'الوصف التعريفي (إنجليزي)' : 'Meta Description (EN)'}</label>
                 <textarea name="seoDescriptionEn" dir="ltr" value={settings.seoDescriptionEn || ''} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-primary focus:outline-none h-24 text-start" />
