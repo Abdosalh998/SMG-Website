@@ -207,74 +207,97 @@ const AdminProductsPage = () => {
         ) : products.length === 0 ? (
           <div className="p-8 text-center text-gray-500">{lang === 'ar' ? 'لا توجد منتجات.' : 'No products found.'}</div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-start">
-              <thead className="bg-gray-50 border-b border-gray-100">
-                <tr>
-                  <th className="px-6 py-4 font-semibold text-gray-600">{lang === 'ar' ? 'صورة' : 'Image'}</th>
-                  <th className="px-6 py-4 font-semibold text-gray-600">{lang === 'ar' ? 'الاسم' : 'Name'}</th>
-                  <th className="px-6 py-4 font-semibold text-gray-600">{lang === 'ar' ? 'السعر' : 'Price'}</th>
-                  <th className="px-6 py-4 font-semibold text-gray-600">{lang === 'ar' ? 'المخزون' : 'Stock'}</th>
-                  <th className="px-6 py-4 font-semibold text-gray-600">{lang === 'ar' ? 'التصنيف' : 'Category'}</th>
-                  <th className="px-6 py-4 font-semibold text-gray-600 text-end">{lang === 'ar' ? 'إجراءات' : 'Actions'}</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {products.map((product) => {
-                  const pHasVariants = product.variants && product.variants.length > 0;
-                  const displayPrice = pHasVariants
-                    ? `${Math.min(...product.variants.map(v => v.price))} - ${Math.max(...product.variants.map(v => v.price))} ${lang === 'ar' ? 'ج.م' : 'EGP'}`
-                    : `${product.price} ${lang === 'ar' ? 'ج.م' : 'EGP'}`;
-                  const displayStock = pHasVariants
-                    ? product.variants.reduce((acc, v) => acc + v.quantity, 0)
-                    : product.quantity;
-
-                  const imgSrc = product.images?.length > 0 ? getImageUrl(product.images[0]) : null;
-
-                  return (
-                    <tr key={product._id} className="hover:bg-gray-50 transition">
-                      <td className="px-6 py-4">
-                        {imgSrc ? (
-                          <img src={imgSrc} alt={lang === 'ar' ? product.name.ar : product.name.en} className="w-12 h-12 rounded-lg object-cover border border-gray-200" />
-                        ) : (
-                          <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
-                            <ImageIcon className="w-6 h-6" />
+          <>
+            {/* Desktop Table */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-start">
+                <thead className="bg-gray-50 border-b border-gray-100">
+                  <tr>
+                    <th className="px-4 py-4 font-semibold text-gray-600">{lang === 'ar' ? 'صورة' : 'Image'}</th>
+                    <th className="px-4 py-4 font-semibold text-gray-600">{lang === 'ar' ? 'الاسم' : 'Name'}</th>
+                    <th className="px-4 py-4 font-semibold text-gray-600">{lang === 'ar' ? 'السعر' : 'Price'}</th>
+                    <th className="px-4 py-4 font-semibold text-gray-600">{lang === 'ar' ? 'المخزون' : 'Stock'}</th>
+                    <th className="px-4 py-4 font-semibold text-gray-600">{lang === 'ar' ? 'التصنيف' : 'Category'}</th>
+                    <th className="px-4 py-4 font-semibold text-gray-600 text-end">{lang === 'ar' ? 'إجراءات' : 'Actions'}</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {products.map((product) => {
+                    const pHasVariants = product.variants && product.variants.length > 0;
+                    const displayPrice = pHasVariants
+                      ? `${Math.min(...product.variants.map(v => v.price))} - ${Math.max(...product.variants.map(v => v.price))} ${lang === 'ar' ? 'ج.م' : 'EGP'}`
+                      : `${product.price} ${lang === 'ar' ? 'ج.م' : 'EGP'}`;
+                    const displayStock = pHasVariants
+                      ? product.variants.reduce((acc, v) => acc + v.quantity, 0)
+                      : product.quantity;
+                    const imgSrc = product.images?.length > 0 ? getImageUrl(product.images[0]) : null;
+                    return (
+                      <tr key={product._id} className="hover:bg-gray-50 transition">
+                        <td className="px-4 py-4">
+                          {imgSrc ? (
+                            <img src={imgSrc} alt={lang === 'ar' ? product.name.ar : product.name.en} className="w-12 h-12 rounded-lg object-cover border border-gray-200" />
+                          ) : (
+                            <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400"><ImageIcon className="w-6 h-6" /></div>
+                          )}
+                        </td>
+                        <td className="px-4 py-4 text-dark font-medium">{lang === 'ar' ? product.name.ar : product.name.en}</td>
+                        <td className="px-4 py-4 text-gray-600 font-medium whitespace-nowrap">{displayPrice}</td>
+                        <td className="px-4 py-4">
+                          <span className={`px-2 py-1 text-xs font-medium rounded-full ${displayStock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                            {displayStock > 0 ? `${displayStock} ${lang === 'ar' ? 'متوفر' : 'in stock'}` : (lang === 'ar' ? 'نفذت الكمية' : 'Out of stock')}
+                          </span>
+                        </td>
+                        <td className="px-4 py-4 text-gray-500 text-sm">{lang === 'ar' ? product.category?.name?.ar : product.category?.name?.en}</td>
+                        <td className="px-4 py-4 text-end">
+                          <div className="flex justify-end gap-3">
+                            <button onClick={() => openModal(product)} className="text-gray-400 hover:text-blue-600 transition" title={lang === 'ar' ? 'تعديل' : 'Edit'}><Edit className="w-5 h-5" /></button>
+                            <button onClick={() => handleDelete(product._id)} className="text-gray-400 hover:text-primary transition" title={lang === 'ar' ? 'حذف' : 'Delete'} disabled={isDeleting}><Trash2 className="w-5 h-5" /></button>
                           </div>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 text-dark font-medium">{lang === 'ar' ? product.name.ar : product.name.en}</td>
-                      <td className="px-6 py-4 text-gray-600 font-medium">{displayPrice}</td>
-                      <td className="px-6 py-4">
-                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${displayStock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                          {displayStock > 0 ? `${displayStock} ${lang === 'ar' ? 'متوفر' : 'in stock'}` : (lang === 'ar' ? 'نفذت الكمية' : 'Out of stock')}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Cards */}
+            <div className="md:hidden divide-y divide-gray-100">
+              {products.map((product) => {
+                const pHasVariants = product.variants && product.variants.length > 0;
+                const displayPrice = pHasVariants
+                  ? `${Math.min(...product.variants.map(v => v.price))} - ${Math.max(...product.variants.map(v => v.price))} ${lang === 'ar' ? 'ج.م' : 'EGP'}`
+                  : `${product.price} ${lang === 'ar' ? 'ج.م' : 'EGP'}`;
+                const displayStock = pHasVariants
+                  ? product.variants.reduce((acc, v) => acc + v.quantity, 0)
+                  : product.quantity;
+                const imgSrc = product.images?.length > 0 ? getImageUrl(product.images[0]) : null;
+                return (
+                  <div key={product._id} className="flex items-center gap-3 p-4">
+                    {imgSrc ? (
+                      <img src={imgSrc} alt={lang === 'ar' ? product.name.ar : product.name.en} className="w-14 h-14 rounded-xl object-cover border border-gray-200 shrink-0" />
+                    ) : (
+                      <div className="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center text-gray-400 shrink-0"><ImageIcon className="w-6 h-6" /></div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-dark text-sm truncate">{lang === 'ar' ? product.name.ar : product.name.en}</p>
+                      <p className="text-primary font-bold text-sm mt-0.5">{displayPrice}</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${displayStock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                          {displayStock > 0 ? `${displayStock} ${lang === 'ar' ? 'متوفر' : 'in stock'}` : (lang === 'ar' ? 'نفذت' : 'Out of stock')}
                         </span>
-                      </td>
-                      <td className="px-6 py-4 text-gray-500 text-sm">{lang === 'ar' ? product.category?.name?.ar : product.category?.name?.en}</td>
-                      <td className="px-6 py-4 text-end">
-                        <div className="flex justify-end gap-3">
-                          <button
-                            onClick={() => openModal(product)}
-                            className="text-gray-400 hover:text-blue-600 transition"
-                            title={lang === 'ar' ? 'تعديل' : 'Edit'}
-                          >
-                            <Edit className="w-5 h-5" />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(product._id)}
-                            className="text-gray-400 hover:text-primary transition"
-                            title={lang === 'ar' ? 'حذف' : 'Delete'}
-                            disabled={isDeleting}
-                          >
-                            <Trash2 className="w-5 h-5" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                        <span className="text-gray-400 text-xs">{lang === 'ar' ? product.category?.name?.ar : product.category?.name?.en}</span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2 shrink-0">
+                      <button onClick={() => openModal(product)} className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition"><Edit className="w-4 h-4" /></button>
+                      <button onClick={() => handleDelete(product._id)} className="p-2 text-gray-400 hover:text-primary hover:bg-red-50 rounded-lg transition" disabled={isDeleting}><Trash2 className="w-4 h-4" /></button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
         )}
       </div>
 

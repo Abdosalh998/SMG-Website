@@ -267,7 +267,7 @@ const ProductDetailPage = () => {
                         key={idx}
                         disabled={vOutOfStock}
                         onClick={() => setSelectedVariant(idx)}
-                        className={`flex items-center justify-between p-4 rounded-xl border-2 text-start transition-all ${
+                        className={`flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl border-2 text-start transition-all gap-3 w-full ${
                           vOutOfStock
                             ? 'border-gray-100 bg-gray-50 opacity-60 cursor-not-allowed'
                             : selectedVariant === idx
@@ -275,12 +275,12 @@ const ProductDetailPage = () => {
                               : 'border-gray-200 hover:border-primary/40 bg-white'
                         }`}
                       >
-                        <div className="flex flex-col gap-1">
+                        <div className="flex flex-col gap-1 flex-1 min-w-0">
                           <div className="flex items-center gap-3">
                             <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedVariant === idx ? 'border-primary' : 'border-gray-300'}`}>
                               {selectedVariant === idx && <div className="w-2.5 h-2.5 rounded-full bg-primary" />}
                             </div>
-                            <div>
+                            <div className="min-w-0">
                               {variant.size && <span className={`font-semibold ${vOutOfStock ? 'text-gray-500' : 'text-dark'}`}>{lang === 'ar' ? 'المقاس:' : 'Size:'} {variant.size}</span>}
                               {variant.power && <span className="text-gray-500 text-sm mx-2">· {lang === 'ar' ? 'القوة:' : 'Power:'} {variant.power}</span>}
                             </div>
@@ -293,7 +293,7 @@ const ProductDetailPage = () => {
                             )}
                           </div>
                         </div>
-                        <div className="text-end">
+                        <div className="sm:text-end shrink-0">
                           {variant.discountPrice ? (
                             <div>
                               <div className={`font-black ${vOutOfStock ? 'text-gray-500' : 'text-primary'}`}>{variant.discountPrice.toLocaleString()} {lang === 'ar' ? 'ج.م' : 'EGP'}</div>

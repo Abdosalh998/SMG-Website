@@ -142,73 +142,80 @@ const CartPage = () => {
         {/* Cart Items */}
         <div className="w-full lg:w-2/3">
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            <table className="w-full text-start border-collapse">
-              <thead>
-                <tr className="bg-gray-50 text-gray-600 text-sm border-b border-gray-100">
-                  <th className="p-4 font-semibold text-start">{lang === 'ar' ? 'المنتج' : 'Product'}</th>
-                  <th className="p-4 font-semibold text-start">{lang === 'ar' ? 'السعر' : 'Price'}</th>
-                  <th className="p-4 font-semibold text-start">{lang === 'ar' ? 'الكمية' : 'Quantity'}</th>
-                  <th className="p-4 font-semibold text-start">{lang === 'ar' ? 'الإجمالي' : 'Total'}</th>
-                  <th className="p-4 font-semibold"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {cartItems.map(item => {
-                  const imgSrc = item.images && item.images[0]
-                    ? `${item.images[0].startsWith('/') ? '' : '/'}${item.images[0]}`
-                    : 'https://placehold.co/100x100/f8f9fa/e60000?text=SMG';
+            {/* Desktop table — hidden on mobile */}
+            <div className="hidden sm:block overflow-x-auto">
+              <table className="w-full text-start border-collapse">
+                <thead>
+                  <tr className="bg-gray-50 text-gray-600 text-sm border-b border-gray-100">
+                    <th className="p-4 font-semibold text-start">{lang === 'ar' ? 'المنتج' : 'Product'}</th>
+                    <th className="p-4 font-semibold text-start">{lang === 'ar' ? 'السعر' : 'Price'}</th>
+                    <th className="p-4 font-semibold text-start">{lang === 'ar' ? 'الكمية' : 'Quantity'}</th>
+                    <th className="p-4 font-semibold text-start">{lang === 'ar' ? 'الإجمالي' : 'Total'}</th>
+                    <th className="p-4 font-semibold"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {cartItems.map(item => {
+                    const imgSrc = item.images && item.images[0]
+                      ? `${item.images[0].startsWith('/') ? '' : '/'}${item.images[0]}`
+                      : 'https://placehold.co/100x100/f8f9fa/e60000?text=SMG';
+                    return (
+                      <tr key={item.cartItemId} className="border-b border-gray-50">
+                        <td className="p-4 flex items-center gap-4">
+                          <img src={imgSrc} alt={lang === 'ar' ? item.name?.ar : item.name?.en} className="w-16 h-16 object-cover rounded bg-gray-100 shrink-0" />
+                          <span className="font-medium text-dark line-clamp-2">{lang === 'ar' ? item.name?.ar : item.name?.en}</span>
+                        </td>
+                        <td className="p-4 text-gray-600 whitespace-nowrap">{getItemPrice(item).toLocaleString()} {lang === 'ar' ? 'ج.م' : 'EGP'}</td>
+                        <td className="p-4">
+                          <div className="flex items-center border rounded w-max">
+                            <button onClick={() => dispatch(addToCart({ ...item, quantity: Math.max(1, item.quantity - 1) }))} className="px-3 py-1 text-gray-500 hover:bg-gray-100">-</button>
+                            <span className="px-3 font-medium">{item.quantity}</span>
+                            <button onClick={() => { const maxQty = item.stockLimit || 1000; if (item.quantity < maxQty) { dispatch(addToCart({ ...item, quantity: item.quantity + 1 })); } else { alert(lang === 'ar' ? 'لا يمكن تجاوز الكمية المتاحة في المخزون.' : 'Cannot exceed available stock.'); } }} className="px-3 py-1 text-gray-500 hover:bg-gray-100">+</button>
+                          </div>
+                        </td>
+                        <td className="p-4 font-medium text-dark whitespace-nowrap">{(getItemPrice(item) * item.quantity).toLocaleString()} {lang === 'ar' ? 'ج.م' : 'EGP'}</td>
+                        <td className="p-4 text-end">
+                          <button onClick={() => dispatch(removeFromCart(item.cartItemId || item._id))} className="text-red-500 hover:bg-red-50 p-2 rounded transition-colors inline-block">
+                            <Trash2 className="w-5 h-5" />
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
 
-                  return (
-                    <tr key={item.cartItemId} className="border-b border-gray-50">
-                      <td className="p-4 flex items-center gap-4">
-                        <img
-                          src={imgSrc}
-                          alt={lang === 'ar' ? item.name?.ar : item.name?.en}
-                          className="w-16 h-16 object-cover rounded bg-gray-100"
-                        />
-                        <span className="font-medium text-dark line-clamp-2">
-                          {lang === 'ar' ? item.name?.ar : item.name?.en}
-                        </span>
-                      </td>
-                      <td className="p-4 text-gray-600">
-                        {getItemPrice(item).toLocaleString()} {lang === 'ar' ? 'ج.م' : 'EGP'}
-                      </td>
-                      <td className="p-4">
-                        <div className="flex items-center border rounded w-max">
-                          <button
-                            onClick={() => dispatch(addToCart({ ...item, quantity: Math.max(1, item.quantity - 1) }))}
-                            className="px-3 py-1 text-gray-500 hover:bg-gray-100"
-                          >-</button>
-                          <span className="px-3 font-medium">{item.quantity}</span>
-                          <button
-                            onClick={() => {
-                              const maxQty = item.stockLimit || 1000;
-                              if (item.quantity < maxQty) {
-                                dispatch(addToCart({ ...item, quantity: item.quantity + 1 }));
-                              } else {
-                                alert(lang === 'ar' ? 'لا يمكن تجاوز الكمية المتاحة في المخزون.' : 'Cannot exceed available stock.');
-                              }
-                            }}
-                            className="px-3 py-1 text-gray-500 hover:bg-gray-100"
-                          >+</button>
+            {/* Mobile cards — shown only on small screens */}
+            <div className="sm:hidden divide-y divide-gray-100">
+              {cartItems.map(item => {
+                const imgSrc = item.images && item.images[0]
+                  ? `${item.images[0].startsWith('/') ? '' : '/'}${item.images[0]}`
+                  : 'https://placehold.co/100x100/f8f9fa/e60000?text=SMG';
+                return (
+                  <div key={item.cartItemId} className="p-4 flex gap-3">
+                    <img src={imgSrc} alt={lang === 'ar' ? item.name?.ar : item.name?.en} className="w-20 h-20 object-cover rounded-xl bg-gray-100 shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-dark text-sm line-clamp-2 mb-2">{lang === 'ar' ? item.name?.ar : item.name?.en}</p>
+                      <p className="text-primary font-bold text-sm mb-3">{getItemPrice(item).toLocaleString()} {lang === 'ar' ? 'ج.م' : 'EGP'}</p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center border rounded-lg overflow-hidden">
+                          <button onClick={() => dispatch(addToCart({ ...item, quantity: Math.max(1, item.quantity - 1) }))} className="px-3 py-1.5 text-gray-500 hover:bg-gray-100 text-lg font-bold">-</button>
+                          <span className="px-4 py-1.5 font-bold text-dark border-x">{item.quantity}</span>
+                          <button onClick={() => { const maxQty = item.stockLimit || 1000; if (item.quantity < maxQty) { dispatch(addToCart({ ...item, quantity: item.quantity + 1 })); } else { alert(lang === 'ar' ? 'لا يمكن تجاوز الكمية المتاحة في المخزون.' : 'Cannot exceed available stock.'); } }} className="px-3 py-1.5 text-gray-500 hover:bg-gray-100 text-lg font-bold">+</button>
                         </div>
-                      </td>
-                      <td className="p-4 font-medium text-dark">
-                        {(getItemPrice(item) * item.quantity).toLocaleString()} {lang === 'ar' ? 'ج.م' : 'EGP'}
-                      </td>
-                      <td className="p-4 text-end">
-                        <button
-                          onClick={() => dispatch(removeFromCart(item.cartItemId || item._id))}
-                          className="text-red-500 hover:bg-red-50 p-2 rounded transition-colors inline-block"
-                        >
-                          <Trash2 className="w-5 h-5" />
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                        <div className="flex items-center gap-3">
+                          <span className="font-bold text-dark">{(getItemPrice(item) * item.quantity).toLocaleString()} {lang === 'ar' ? 'ج.م' : 'EGP'}</span>
+                          <button onClick={() => dispatch(removeFromCart(item.cartItemId || item._id))} className="text-red-500 hover:bg-red-50 p-1.5 rounded transition-colors">
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
 

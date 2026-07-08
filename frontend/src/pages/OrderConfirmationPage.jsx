@@ -30,8 +30,8 @@ const OrderConfirmationPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 text-start">
-      <div className="max-w-2xl w-full">
+    <div className="min-h-screen bg-gray-50 py-8 px-4 text-start">
+      <div className="max-w-2xl w-full mx-auto">
 
         {/* Success Header */}
         <div className="text-center mb-8">
