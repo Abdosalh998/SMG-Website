@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Outlet, Navigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { LayoutDashboard, ShoppingBag, List, Tag, Settings, LogOut, Bookmark, Menu, X, Globe, Truck, HelpCircle, Scale } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, List, Tag, Settings, LogOut, Bookmark, Menu, X, Globe, Truck, HelpCircle, Scale, MessageCircle } from 'lucide-react';
 import { logout } from '../../store/authSlice';
 
 const AdminLayout = () => {
@@ -76,6 +76,9 @@ const AdminLayout = () => {
           </Link>
           <Link to="/admin/settings" onClick={closeSidebar} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 text-gray-700 hover:text-primary transition-colors">
             <Settings className="w-5 h-5" /> {lang === 'ar' ? 'الإعدادات' : 'Settings'}
+          </Link>
+          <Link to="/admin/settings/social-media" onClick={closeSidebar} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 text-gray-700 hover:text-primary transition-colors">
+            <MessageCircle className="w-5 h-5" /> {lang === 'ar' ? 'منصات التواصل' : 'Social Media'}
           </Link>
         </nav>
         <div className="p-4 border-t border-gray-200">

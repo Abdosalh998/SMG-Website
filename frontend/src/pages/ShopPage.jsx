@@ -146,7 +146,7 @@ const ShopPage = () => {
           {/* Main Content */}
           <div className="flex-1 min-w-0">
             {/* Toolbar */}
-            <div className="flex items-center justify-between mb-6 bg-white rounded-xl px-4 py-3 border border-gray-100 shadow-sm">
+            <div className="flex flex-wrap items-center justify-between gap-y-3 gap-x-2 mb-6 bg-white rounded-xl px-4 py-3 border border-gray-100 shadow-sm">
               {/* Mobile Filter Toggle */}
               <button
                 className="lg:hidden flex items-center gap-2 text-sm font-medium text-dark"

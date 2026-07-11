@@ -55,9 +55,13 @@ const Footer = () => {
                 <MapPin className="w-5 h-5 text-primary shrink-0" />
                 <span className="text-gray-400 text-sm">{lang === 'ar' ? '112 شارع عمر بن الخطاب زهراء مدينة نصر القاهرة' : '112 Omar Ibn Al-Khattab Street, Zahraa Nasr City, Cairo'}</span>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-primary shrink-0" />
-                <span className="text-gray-400 text-sm" dir="ltr">01203509668</span>
+              <li className="flex items-start gap-3">
+                <Phone className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                <div className="flex flex-wrap gap-x-4 gap-y-2">
+                  <span className="text-gray-400 text-sm" dir="ltr">01203509668</span>
+                  <span className="text-gray-400 text-sm" dir="ltr">01034322741</span>
+                  <span className="text-gray-400 text-sm" dir="ltr">01281090724</span>
+                </div>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-primary shrink-0" />

@@ -13,7 +13,7 @@ const baseQuery = fetchBaseQuery({
 
 export const apiSlice = createApi({
   baseQuery,
-  tagTypes: ['User', 'Product', 'Category', 'Brand', 'Order', 'Settings', 'Shipping', 'FAQ', 'Legal'],
+  tagTypes: ['User', 'Product', 'Category', 'Brand', 'Order', 'Settings', 'Shipping', 'FAQ', 'Legal', 'SocialMedia'],
   endpoints: (builder) => ({
     // PRODUCTS
     getProducts: builder.query({
@@ -177,6 +177,20 @@ export const apiSlice = createApi({
       query: ({ slug, data }) => ({ url: `/legal/${slug}`, method: 'PUT', body: data }),
       invalidatesTags: ['Legal'],
     }),
+
+    // SOCIAL MEDIA
+    getSocialMedia: builder.query({
+      query: () => '/social-media',
+      providesTags: ['SocialMedia'],
+    }),
+    getActiveSocialMedia: builder.query({
+      query: () => '/social-media/active',
+      providesTags: ['SocialMedia'],
+    }),
+    updateSocialMedia: builder.mutation({
+      query: ({ platform, data }) => ({ url: `/social-media/${platform}`, method: 'PUT', body: data }),
+      invalidatesTags: ['SocialMedia'],
+    }),
   }),
 });
 
@@ -220,5 +234,9 @@ export const {
 
   useGetLegalPageQuery,
   useGetLegalPagesQuery,
-  useUpdateLegalPageMutation
+  useUpdateLegalPageMutation,
+
+  useGetSocialMediaQuery,
+  useGetActiveSocialMediaQuery,
+  useUpdateSocialMediaMutation
 } = apiSlice;

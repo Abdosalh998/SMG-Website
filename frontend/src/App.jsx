@@ -30,6 +30,7 @@ import AdminBrandsPage from './pages/admin/AdminBrandsPage';
 import AdminShippingPage from './pages/admin/AdminShippingPage';
 import AdminFAQPage from './pages/admin/AdminFAQPage';
 import AdminLegalPage from './pages/admin/AdminLegalPage';
+import AdminSocialMediaPage from './pages/admin/AdminSocialMediaPage';
 
 function App() {
   const { i18n } = useTranslation();
@@ -70,6 +71,7 @@ function App() {
           <Route path="faq" element={<AdminFAQPage />} />
           <Route path="legal" element={<AdminLegalPage />} />
           <Route path="settings" element={<AdminSettingsPage />} />
+          <Route path="settings/social-media" element={<AdminSocialMediaPage />} />
         </Route>
       </Routes>
     </Router>

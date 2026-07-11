@@ -3,6 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { useGetProductsQuery, useGetCategoriesQuery, useGetBrandsQuery } from '../store/apiSlice';
 import ProductCard from '../components/ui/ProductCard';
 import { ArrowRight, ShieldCheck, Zap, PhoneCall } from 'lucide-react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 const HomePage = () => {
   const { t, i18n } = useTranslation();
@@ -79,20 +83,32 @@ const HomePage = () => {
               </Link>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <Swiper
+              modules={[Navigation]}
+              spaceBetween={16}
+              slidesPerView={2}
+              navigation
+              breakpoints={{
+                640: { slidesPerView: 3 },
+                1024: { slidesPerView: 6 },
+              }}
+              className="px-2 py-4 home-swiper"
+            >
               {categories.map((category) => (
-                <Link key={category._id} to={`/shop?category=${category._id}`} className="group bg-white rounded-2xl p-6 border border-gray-100 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all text-center flex flex-col items-center">
-                  <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4 overflow-hidden group-hover:scale-110 transition-transform">
-                    {category.image && category.image !== 'no-photo.jpg' ? (
-                      <img src={getImageUrl(category.image)} alt={lang === 'ar' ? category.name.ar : category.name.en} className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="text-2xl font-black text-gray-300">{(lang === 'ar' ? category.name.ar : category.name.en)[0]}</div>
-                    )}
-                  </div>
-                  <h3 className="font-bold text-dark group-hover:text-primary transition-colors text-sm">{lang === 'ar' ? category.name.ar : category.name.en}</h3>
-                </Link>
+                <SwiperSlide key={category._id} className="h-auto">
+                  <Link to={`/shop?category=${category._id}`} className="block h-full group bg-white rounded-2xl p-6 border border-gray-100 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all text-center flex flex-col items-center">
+                    <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4 overflow-hidden group-hover:scale-110 transition-transform">
+                      {category.image && category.image !== 'no-photo.jpg' ? (
+                        <img src={getImageUrl(category.image)} alt={lang === 'ar' ? category.name.ar : category.name.en} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="text-2xl font-black text-gray-300">{(lang === 'ar' ? category.name.ar : category.name.en)[0]}</div>
+                      )}
+                    </div>
+                    <h3 className="font-bold text-dark group-hover:text-primary transition-colors text-sm">{lang === 'ar' ? category.name.ar : category.name.en}</h3>
+                  </Link>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           </div>
         </section>
       )}
@@ -117,11 +133,23 @@ const HomePage = () => {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Swiper
+              modules={[Navigation]}
+              spaceBetween={24}
+              slidesPerView={1.2}
+              navigation
+              breakpoints={{
+                640: { slidesPerView: 2.5 },
+                1024: { slidesPerView: 4 },
+              }}
+              className="px-2 py-4 home-swiper"
+            >
               {featuredProducts.map((product) => (
-                <ProductCard key={product._id} product={product} />
+                <SwiperSlide key={product._id} className="h-auto pb-4">
+                  <ProductCard product={product} />
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           )}
         </div>
       </section>
@@ -157,20 +185,34 @@ const HomePage = () => {
 
       {/* Brands Section */}
       {!brandsLoading && brands.length > 0 && (
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-gray-50">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-2xl font-bold text-dark mb-10">{lang === 'ar' ? 'العلامات التجارية الموثوقة' : 'Trusted Brands'}</h2>
-            <div className="flex flex-wrap justify-center gap-8 md:gap-12 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+            <Swiper
+              modules={[Autoplay]}
+              spaceBetween={24}
+              slidesPerView={2}
+              autoplay={{ delay: 3000, disableOnInteraction: false }}
+              breakpoints={{
+                640: { slidesPerView: 4 },
+                1024: { slidesPerView: 6 },
+              }}
+              className="py-4"
+            >
               {brands.map((brand) => (
-                <Link key={brand._id} to={`/shop?brand=${brand._id}`} className="group hover:opacity-100 transition-opacity">
-                  {brand.image && brand.image !== 'no-photo.jpg' ? (
-                    <img src={getImageUrl(brand.image)} alt={lang === 'ar' ? brand.name.ar : brand.name.en} className="h-12 md:h-16 object-contain" />
-                  ) : (
-                    <span className="text-2xl font-black text-gray-300 group-hover:text-dark transition-colors">{lang === 'ar' ? brand.name.ar : brand.name.en}</span>
-                  )}
-                </Link>
+                <SwiperSlide key={brand._id} className="h-auto">
+                  <Link to={`/shop?brand=${brand._id}`} className="block h-full bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md hover:border-primary/20 transition-all">
+                    {brand.image && brand.image !== 'no-photo.jpg' ? (
+                      <img src={getImageUrl(brand.image)} loading="lazy" alt={lang === 'ar' ? brand.name.ar : brand.name.en} className="h-16 w-full object-contain" />
+                    ) : (
+                      <div className="h-16 flex items-center justify-center">
+                        <span className="text-xl font-black text-gray-800">{lang === 'ar' ? brand.name.ar : brand.name.en}</span>
+                      </div>
+                    )}
+                  </Link>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           </div>
         </section>
       )}

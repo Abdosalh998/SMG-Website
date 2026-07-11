@@ -45,6 +45,7 @@ const settingsRoutes = require('./routes/settings');
 const shippingRoutes = require('./routes/shipping');
 const faqRoutes = require('./routes/faq');
 const legalRoutes = require('./routes/legal');
+const socialMediaRoutes = require('./routes/socialMedia');
 
 // Mount routers
 app.use('/api/v1/auth', authRoutes);
@@ -56,6 +57,7 @@ app.use('/api/v1/settings', settingsRoutes);
 app.use('/api/v1/shipping', shippingRoutes);
 app.use('/api/v1/faq', faqRoutes);
 app.use('/api/v1/legal', legalRoutes);
+app.use('/api/v1/social-media', socialMediaRoutes);
 
 app.get('/', (req, res) => {
     res.send('SMG E-commerce API is running...');
