@@ -21,8 +21,8 @@ const HomePage = () => {
   };
 
   const featuredProducts = productsData?.data?.slice(0, 8) || [];
-  const categories = categoriesData?.data?.slice(0, 6) || [];
-  const brands = brandsData?.data?.slice(0, 6) || [];
+  const categories = categoriesData?.data || [];
+  const brands = brandsData?.data || [];
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
